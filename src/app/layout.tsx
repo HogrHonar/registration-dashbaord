@@ -10,7 +10,7 @@ const notoSansArabic = Noto_Sans_Arabic({
 
 export const metadata: Metadata = {
   title: "Registration Dashboard",
-  description: "داشبۆردی تۆمارکردنی خوێندکاران",
+  description: "داشبۆردی تۆمارکردنی فێرخوازان",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

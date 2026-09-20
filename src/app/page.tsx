@@ -35,7 +35,7 @@ export default async function Home() {
         <div className="bg-white/80 backdrop-blur-xl border border-white p-8 rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">بەخێربێیت</h1>
           <p className="text-[15px] text-gray-500 mb-8 leading-relaxed">
-            بۆ بینینی داتاکانی تۆمارکردنی خوێندکاران، تکایە بە هەژماری گۆگڵەکەت بچۆ ژوورەوە.
+            بۆ بینینی داتاکانی تۆمارکردنی فێرخوازان، تکایە بە هەژماری گۆگڵەکەت بچۆ ژوورەوە.
           </p>
           
           <SignInButton />

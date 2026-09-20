@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'داشبۆردی تۆمارکردن',
     short_name: 'داشبۆرد',
-    description: 'داشبۆردی تۆمارکردنی خوێندکاران',
+    description: 'داشبۆردی تۆمارکردنی فێرخوازان',
     start_url: '/dashboard',
     display: 'standalone',
     background_color: '#f9fafb',
