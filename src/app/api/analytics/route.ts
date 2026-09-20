@@ -75,6 +75,9 @@ export async function GET() {
         "ئینگلیزی (بۆ پەرەپێدانی پیشەیی)": ["ئینگلیزی"],
       };
 
+    let todayPreReg = 0;
+    let todayNextStep = 0;
+
     if (preRegSheet) {
       const preRegRows = await preRegSheet.getRows();
       preRegTotal = 0;
@@ -88,6 +91,21 @@ export async function GET() {
         
         if (selectedDept !== "" || mark !== "" || name1 !== "" || name2 !== "") {
             preRegTotal++;
+            const tsKey = preRegSheet.headerValues[0];
+            const ts = (row.get(tsKey) || "").toString();
+            if (ts) {
+                const parts = ts.split(" ")[0].split(/[-/]/);
+                if (parts.length === 3) {
+                    const p1 = parts[0].padStart(2, '0');
+                    const p2 = parts[1].padStart(2, '0');
+                    const p3 = parts[2].length === 2 ? '20'+parts[2] : parts[2];
+                    const d1 = `${p1}/${p2}/${p3}`;
+                    const d2 = `${p2}/${p1}/${p3}`;
+                    if (d1 === today || d2 === today) {
+                        todayPreReg++;
+                    }
+                }
+            }
         }
 
         let totalMarkStr = row.get("کۆنمرە");
@@ -130,6 +148,21 @@ export async function GET() {
         
         if (selectedDept !== "" || mark !== "" || name1 !== "" || name2 !== "") {
             nextStepTotal++;
+            const tsKey = nextStepSheet.headerValues[0];
+            const ts = (row.get(tsKey) || "").toString();
+            if (ts) {
+                const parts = ts.split(" ")[0].split(/[-/]/);
+                if (parts.length === 3) {
+                    const p1 = parts[0].padStart(2, '0');
+                    const p2 = parts[1].padStart(2, '0');
+                    const p3 = parts[2].length === 2 ? '20'+parts[2] : parts[2];
+                    const d1 = `${p1}/${p2}/${p3}`;
+                    const d2 = `${p2}/${p1}/${p3}`;
+                    if (d1 === today || d2 === today) {
+                        todayNextStep++;
+                    }
+                }
+            }
         }
 
         let totalMarkStr = row.get("کۆنمرە");
@@ -325,6 +358,8 @@ export async function GET() {
       nextStepTotal,
       nextStepDepartmentRequests,
       nextStepDepartmentStats,
+      todayPreReg,
+      todayNextStep,
     });
   } catch (error) {
     console.error("Error fetching analytics data:", error);
