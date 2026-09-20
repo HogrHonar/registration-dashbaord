@@ -27,6 +27,33 @@ const BRANCHES = [
   "پەیمانگە پێنج ساڵییەکان",
 ];
 
+function isDateToday(value: unknown, today: string): boolean {
+  if (!value) return false;
+
+  // Convert Eastern Arabic numerals to Western numerals
+  let ts = String(value).trim().replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d).toString());
+  
+  if (ts === today || ts.includes(today)) return true;
+
+  const date = ts.split(/[ T]/)[0];
+  const parts = date.split(/[-/.]/);
+  if (parts.length !== 3) return false;
+
+  const [first, second, rawYear] = parts;
+  const year = rawYear.length === 2 ? `20${rawYear}` : rawYear;
+  
+  const p1 = first.padStart(2, "0");
+  const p2 = second.padStart(2, "0");
+  
+  const candidates = [
+    `${p1}/${p2}/${year}`,
+    `${p2}/${p1}/${year}`,
+    `${year}/${p2}/${p1}`
+  ];
+
+  return candidates.includes(today);
+}
+
 export async function GET() {
   try {
     const doc = await getSpreadsheet();
@@ -94,7 +121,7 @@ export async function GET() {
             const tsKey = preRegSheet.headerValues[0];
             const ts = (row.get(tsKey) || "").toString();
             if (ts) {
-                const parts = ts.split(" ")[0].split(/[-/]/);
+                const parts = ts.split(" ")[0].split(/[-/.]/);
                 if (parts.length === 3) {
                     const p1 = parts[0].padStart(2, '0');
                     const p2 = parts[1].padStart(2, '0');
@@ -151,7 +178,7 @@ export async function GET() {
             const tsKey = nextStepSheet.headerValues[0];
             const ts = (row.get(tsKey) || "").toString();
             if (ts) {
-                const parts = ts.split(" ")[0].split(/[-/]/);
+                const parts = ts.split(" ")[0].split(/[-/.]/);
                 if (parts.length === 3) {
                     const p1 = parts[0].padStart(2, '0');
                     const p2 = parts[1].padStart(2, '0');
@@ -238,7 +265,19 @@ export async function GET() {
     let todayDocumented = 0;
 
     //count returned forms by checking today's date pattern like DD/MM/YYYY
-    const today = new Date().toLocaleDateString("en-GB");
+    // Construct date manually to avoid hidden LTR/RTL marks on Windows
+    const d = new Date();
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Baghdad',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const dparts = formatter.formatToParts(d);
+    const day = dparts.find(p => p.type === 'day')?.value || "";
+    const month = dparts.find(p => p.type === 'month')?.value || "";
+    const year = dparts.find(p => p.type === 'year')?.value || "";
+    const today = `${day}/${month}/${year}`;
     console.log(today);
 
     // Process each row
@@ -253,15 +292,18 @@ export async function GET() {
       const document = row.get("پشتگیری بڕوانامەی بردووە؟") || "";
 
       // filtering by today
-      if (name && datefilled === today) {
+      const isFilledToday = isDateToday(datefilled, today);
+      const isReturnedToday = isDateToday(dateReturned, today);
+
+      if (name && isFilledToday) {
         todayfilled++;
       }
 
-      if (dateReturned === today) {
+      if (isReturnedToday) {
         returnedToday++;
       }
 
-      if (document.toLowerCase() === "بەڵێ" && datefilled === today || dateReturned === today) {
+      if (document === "بەڵێ" && (isFilledToday || isReturnedToday)) {
         todayDocumented++;
       }
 
