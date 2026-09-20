@@ -2,6 +2,10 @@
 import { getSpreadsheet } from "@/lib/google-sheets";
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+
 const DEPARTMENTS = [
   { name: "پەرستاری", minMark: 53.5 },
   { name: "دەرمانسازی", minMark: 56.5 },
