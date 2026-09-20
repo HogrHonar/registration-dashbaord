@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'داشبۆردی تۆمارکردن',
-    short_name: 'داشبۆرد',
+    name: 'تۆمار',
+    short_name: 'تۆمار',
     description: 'داشبۆردی تۆمارکردنی فێرخوازان',
     start_url: '/dashboard',
     display: 'standalone',

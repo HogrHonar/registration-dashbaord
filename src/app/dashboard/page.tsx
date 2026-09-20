@@ -371,7 +371,7 @@ export default function Analytics() {
           </h1>
         </div>
         <Tabs defaultValue="all" className="space-y-4" dir="rtl">
-          <TabsList className="mb-4" dir="rtl">
+          <TabsList className="mb-4 w-full flex justify-start sm:justify-center overflow-x-auto hide-scrollbar h-auto p-1" dir="rtl">
             <TabsTrigger value="all">گشتی</TabsTrigger>
             <TabsTrigger value="today">ئەمرۆ</TabsTrigger>
           </TabsList>
@@ -517,7 +517,7 @@ export default function Analytics() {
 
         {/* Main Charts */}
         <Tabs defaultValue="branches" className="space-y-4" dir="rtl">
-          <TabsList>
+          <TabsList className="w-full flex justify-start sm:justify-center overflow-x-auto hide-scrollbar h-auto p-1">
             <TabsTrigger value="branches">لقەکان</TabsTrigger>
             <TabsTrigger value="departments">بەشەکان</TabsTrigger>
             <TabsTrigger value="prereg">تۆمارکردنی پێشوەختە (ئۆنلاین)</TabsTrigger>
