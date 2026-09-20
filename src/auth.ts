@@ -15,6 +15,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorization: {
         params: {
           prompt: "select_account",
+          access_type: "offline",
+          response_type: "code",
+          scope: "openid profile email"
         },
       },
     }),
