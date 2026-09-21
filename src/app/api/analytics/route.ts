@@ -60,6 +60,20 @@ function isDateToday(value: unknown, today: string): boolean {
 
 export async function GET() {
   try {
+    // Construct date manually to avoid hidden LTR/RTL marks on Windows
+    const d = new Date();
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Baghdad',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const dparts = formatter.formatToParts(d);
+    const day = dparts.find(p => p.type === 'day')?.value || "";
+    const month = dparts.find(p => p.type === 'month')?.value || "";
+    const year = dparts.find(p => p.type === 'year')?.value || "";
+    const today = `${day}/${month}/${year}`;
+    console.log("Today is:", today);
     const doc = await getSpreadsheet();
     const sheet = doc.sheetsByTitle[process.env.REGISTRATION_SHEET_NAME!];
     const preRegSheet = doc.sheetsByTitle[process.env.PRE_REGISTRATION_SHEET_NAME!];
@@ -268,21 +282,6 @@ export async function GET() {
     let documentedForms = 0;
     let todayDocumented = 0;
 
-    //count returned forms by checking today's date pattern like DD/MM/YYYY
-    // Construct date manually to avoid hidden LTR/RTL marks on Windows
-    const d = new Date();
-    const formatter = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Asia/Baghdad',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    });
-    const dparts = formatter.formatToParts(d);
-    const day = dparts.find(p => p.type === 'day')?.value || "";
-    const month = dparts.find(p => p.type === 'month')?.value || "";
-    const year = dparts.find(p => p.type === 'year')?.value || "";
-    const today = `${day}/${month}/${year}`;
-    console.log(today);
 
     // Process each row
     rows.forEach((row) => {
