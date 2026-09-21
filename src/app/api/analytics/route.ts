@@ -122,7 +122,7 @@ export async function GET() {
         
         if (selectedDept !== "" || mark !== "" || name1 !== "" || name2 !== "") {
             preRegTotal++;
-            const tsKey = preRegSheet.headerValues[0];
+            const tsKey = 'Timestamp';
             const ts = (row.get(tsKey) || "").toString();
             if (ts) {
                 const parts = ts.split(" ")[0].split(/[-/.]/);
@@ -179,7 +179,7 @@ export async function GET() {
         
         if (selectedDept !== "" || mark !== "" || name1 !== "" || name2 !== "") {
             nextStepTotal++;
-            const tsKey = nextStepSheet.headerValues[0];
+            const tsKey = 'ڕێکەوتی وەرگرتن';
             const ts = (row.get(tsKey) || "").toString();
             if (ts) {
                 const parts = ts.split(" ")[0].split(/[-/.]/);
