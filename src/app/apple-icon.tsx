@@ -5,7 +5,7 @@ export const size = {
   height: 180,
 }
 export const contentType = 'image/png'
-
+//this is a simple example of an OG image, you can customize it to your liking
 export default function Icon() {
   return new ImageResponse(
     (
